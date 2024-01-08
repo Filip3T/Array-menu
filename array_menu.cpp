@@ -1,38 +1,40 @@
 #include <iostream>
 #include <time.h>
 #include <stdlib.h>
+#include <fstream>
 
 using namespace std;
 
 int randint(int p, int k) {
     return int((k - p) * (double)rand() / RAND_MAX) + p;
 }
-
 int main()
 {
-    srand(time(NULL));                               //przelatywanie przez randy
+    srand(time(NULL));                               ///przelatywanie przez randy
     for (int i = 0; i < 100; i++) {
         rand();
     }
     bool aktywny = true;
-    int* p = new int[4];                             //stworzenie tablicy
+    int* p = new int[4];                             ///stworzenie tablicy
     int* np = NULL;
     for (int i = 0; i < 4; i++) {
         p[i] = randint(1, 30);
     }
     int size = 4;
-    while (aktywny) {                                //while aktywnosc
-        cout << "1: Dodaj element" << endl;          //interfejs
+    while (aktywny) {                                ///while aktywnosc
+        cout << "1: Dodaj element" << endl;          ///interfejs
         cout << "2: Usun element" << endl;
         cout << "3: Wsadz element" << endl;
         cout << "4: Pokaz elementy" << endl;
-        cout << "5: Wyjdz" << endl << endl;
+        cout << "5: Zapisz" << endl;
+        cout << "6: Wczytaj" << endl;
+        cout << "7: Wyjdz" << endl;
         cout << "Wybor: ";
-        int c;                                       //wybor
+        int c;                                       ///wybor
         cin >> c;
         cout << endl;
-        switch (c) {                                 //switch z wyborem
-        case 5:
+        switch (c) {                                 ///switch z wyborem
+        case 7:
             aktywny = false;
             break;
         case 1:
@@ -47,9 +49,9 @@ int main()
                 cin >> nowa;
                 system("cls");
                 np[size] = nowa;
-                //delete[] p;
+                delete[] p;
                 size++;
-                //int* p = new int[size];
+                p = new int[size];
                 for (int i = 0; i < size; i++) {
                     p[i] = np[i];
                 }
@@ -100,6 +102,8 @@ int main()
                     }
                 }
                 size++;
+                delete[] p;
+                p = new int[size];
                 for (int i = 0; i < size; i++) {
                     p[i] = np[i];
                 }
@@ -115,8 +119,51 @@ int main()
                 int breakout;
                 cin >> breakout;
                 system("cls");
-                break;
             }
+            break;
+        case 5:
+            {
+                fstream plik;
+                plik.open("D:\\dane.txt",ios::out | ios::trunc);
+
+                if (plik.is_open()) {
+                    plik << size << endl;
+                    for(int i = 0; i < size; i++) {
+                        plik << p[i] << endl;
+                    }
+                    plik.close();
+                } else {
+                    cout << "Nie udalo sie otworzyc pliku" << endl;
+                }
+                system("cls");
+            } // case
+            break;
+        case 6:
+            {
+                fstream plik;
+                plik.open("D:\\dane.txt", ios::in);
+                if (plik.is_open()){
+                    system("cls");
+                    string temp;
+                    delete[] p;
+                    int i = 0;
+                    while(getline(plik,temp)) {
+                        if(i==0) {
+                            size = atoi(temp.c_str());
+                            p = new int[size];
+                        } else {
+                            p[i-1] = atoi(temp.c_str());
+                        }
+                        i++;
+                        cout << atoi(temp.c_str());
+                    }
+                    cin >> i;
+                    plik.close();
+                    } else {
+                    cout << "Nie udalo sie otworzyc pliku" << endl;
+                }
+            } //case
+            break;
         } // *switch
     } // *while
     delete[] p;
