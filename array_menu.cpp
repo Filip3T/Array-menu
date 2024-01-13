@@ -129,7 +129,7 @@ int main()
         case 5:                                                                 //zapisz
         {
             fstream plik;
-            plik.open("C:\\Users\\Boss\\Desktop\\dane.txt", ios::out | ios::trunc);
+            plik.open("D:\\dane.txt", ios::out | ios::trunc);
 
             if (plik.is_open()) {
                 plik << size << endl;
@@ -147,7 +147,7 @@ int main()
         case 6:                                                                 //wczytaj
         {
             fstream plik;
-            plik.open("C:\\Users\\Boss\\Desktop\\dane.txt", ios::in);
+            plik.open("D:\\dane.txt", ios::in);
             if (plik.is_open()) {
                 system("cls");
                 string temp;
