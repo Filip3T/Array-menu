@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -34,137 +35,143 @@ int main()
         cin >> c;
         cout << endl;
         switch (c) {                                 ///switch z wyborem
+        default:
+            system("cls");
+            break;
         case 7:
             aktywny = false;
             break;
-        case 1:
-            {
-                np = new int[size + 1];
-                for (int i = 0; i < size; i++) {
-                    np[i] = p[i];
-                }
-                system("cls");
-                cout << "Nowa wartosc: ";
-                int nowa;
-                cin >> nowa;
-                system("cls");
-                np[size] = nowa;
-                delete[] p;
-                size++;
-                p = new int[size];
-                for (int i = 0; i < size; i++) {
-                    p[i] = np[i];
-                }
-                delete[] np;
+        case 1:                                                                 //dodaj
+        {
+            np = new int[size + 1];
+            for (int i = 0; i < size; i++) {
+                np[i] = p[i];
             }
-            break;
-        case 2:
-            {
-                int element;
-                cout << "Ktory element chcesz usunac?: ";
-                cin >> element;
-                cout << endl;
-                np = new int[size - 1];
-                int iter = 0;
-                for (int i = 0; i < size; i++) {
-                    if (i != element - 1) {
-                        np[iter] = p[i];
-                        iter += 1;
-                    }
-                }
-                system("cls");
-                size--;
-                for (int i = 0; i < size; i++) {
-                    p[i] = np[i];
-                }
-                delete[] np;
+            system("cls");
+            cout << "Nowa wartosc: ";
+            int nowa;
+            cin >> nowa;
+            system("cls");
+            np[size] = nowa;
+            delete[] p;
+            size++;
+            p = new int[size];
+            for (int i = 0; i < size; i++) {
+                p[i] = np[i];
             }
-            break;
-        case 3:
-            {
-                system("cls");
-                cout << "gdzie chcesz dodac element?: ";
-                int place = 0;
-                cin >> place;
-                system("cls");
-                cout << "Jaki element chcesz dodac?: ";
-                int element = 0;
-                cin >> element;
-                system("cls");
-                np = new int[size + 1];
-                int iter = 0;
-                for (int i = 0; i <= size; i++) {
-                    if (i != place - 1) {
-                        np[i] = p[iter];
-                        iter++;
-                    } else {
-                        np[i] = element;
-                    }
+            delete[] np;
+        }
+        break;
+        case 2:                                                                 //usun
+        {
+            int element;
+            cout << "Ktory element chcesz usunac?: ";
+            cin >> element;
+            cout << endl;
+            np = new int[size - 1];
+            int iter = 0;
+            for (int i = 0; i < size; i++) {
+                if (i != element - 1) {
+                    np[iter] = p[i];
+                    iter += 1;
                 }
-                size++;
-                delete[] p;
-                p = new int[size];
-                for (int i = 0; i < size; i++) {
-                    p[i] = np[i];
-                }
-                delete[] np;
             }
-            break;
-        case 4:
-            {
-                for (int i = 0; i < size; i++) {
-                    cout << p[i] << "  ";
-                }
-                cout << endl << "zakoncz: ";
-                int breakout;
-                cin >> breakout;
-                system("cls");
+            system("cls");
+            size--;
+            for (int i = 0; i < size; i++) {
+                p[i] = np[i];
             }
-            break;
-        case 5:
-            {
-                fstream plik;
-                plik.open("D:\\dane.txt",ios::out | ios::trunc);
+            delete[] np;
+        }
+        break;
+        case 3:                                                                 //wsadz
+        {
+            system("cls");
+            cout << "gdzie chcesz dodac element?: ";
+            int place = 0;
+            cin >> place;
+            system("cls");
+            cout << "Jaki element chcesz dodac?: ";
+            int element = 0;
+            cin >> element;
+            system("cls");
+            np = new int[size + 1];
+            int iter = 0;
+            for (int i = 0; i <= size; i++) {
+                if (i != place - 1) {
+                    np[i] = p[iter];
+                    iter++;
+                }
+                else {
+                    np[i] = element;
+                }
+            }
+            size++;
+            delete[] p;
+            p = new int[size];
+            for (int i = 0; i < size; i++) {
+                p[i] = np[i];
+            }
+            delete[] np;
+        }
+        break;
+        case 4:                                                                 //pokaz
+        {
+            for (int i = 0; i < size; i++) {
+                cout << p[i] << "  ";
+            }
+            cout << endl << "zakoncz: ";
+            int breakout;                                               //mozna wpisac byle co zeby zakonczyc ogladanie elementow :D
+            cin >> breakout;
+            system("cls");
+        }
+        break;
+        case 5:                                                                 //zapisz
+        {
+            fstream plik;
+            plik.open("C:\\Users\\Boss\\Desktop\\dane.txt", ios::out | ios::trunc);
 
-                if (plik.is_open()) {
-                    plik << size << endl;
-                    for(int i = 0; i < size; i++) {
-                        plik << p[i] << endl;
-                    }
-                    plik.close();
-                } else {
-                    cout << "Nie udalo sie otworzyc pliku" << endl;
+            if (plik.is_open()) {
+                plik << size << endl;
+                for (int i = 0; i < size; i++) {
+                    plik << p[i] << endl;
                 }
+                plik.close();
+            }
+            else {
+                cout << "Nie udalo sie otworzyc pliku" << endl;
+            }
+            system("cls");
+        } // case
+        break;
+        case 6:                                                                 //wczytaj
+        {
+            fstream plik;
+            plik.open("C:\\Users\\Boss\\Desktop\\dane.txt", ios::in);
+            if (plik.is_open()) {
                 system("cls");
-            } // case
-            break;
-        case 6:
-            {
-                fstream plik;
-                plik.open("D:\\dane.txt", ios::in);
-                if (plik.is_open()){
-                    system("cls");
-                    string temp;
-                    delete[] p;
-                    int i = 0;
-                    while(getline(plik,temp)) {
-                        if(i==0) {
-                            size = atoi(temp.c_str());
-                            p = new int[size];
-                        } else {
-                            p[i-1] = atoi(temp.c_str());
-                        }
-                        i++;
-                        cout << atoi(temp.c_str());
+                string temp;
+                delete[] p;
+                int i = 0;
+                while (getline(plik, temp)) {
+                    if (i == 0) {
+                        size = atoi(temp.c_str());
+                        p = new int[size];
                     }
-                    cin >> i;
-                    plik.close();
-                    } else {
-                    cout << "Nie udalo sie otworzyc pliku" << endl;
+                    else {
+                        p[i - 1] = atoi(temp.c_str());
+                    }
+                    i++;
                 }
-            } //case
-            break;
+                plik.close();
+            }
+            else {
+                cout << "Nie udalo sie otworzyc pliku" << endl;
+            }
+        } //case
+        break;
         } // *switch
     } // *while
     delete[] p;
+    return 1;
 } // *main
